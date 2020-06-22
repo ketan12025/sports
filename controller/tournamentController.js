@@ -45,6 +45,7 @@ exports.getAllTournament = catchAsync(async (req, res, next) => {
   }
 
   const tournament = await query;
+  
   if(!tournament.length){
     return next(new AppError('tournament not found',400))
   }

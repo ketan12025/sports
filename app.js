@@ -13,6 +13,7 @@ const catchAsync = require("./utils/catchAsync");
 
 const tournamentRouter = require("./router/tournamentRouter");
 const userRouter = require('./router/userRouter')
+const bookingRouter = require('./router/bookingRouter')
 
 const app = express();
 
@@ -33,9 +34,11 @@ const limiter = rateLimit({
 });
 app.use("/api", limiter);
 
-// Body parser, reading data from body into req.body
 
-app.use(express.json());
+// Body parser, reading data from body into req.body
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+//app.use(express.cookieParser());
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
@@ -50,12 +53,15 @@ app.use(
   })
 );
 
+//app.use(express.compress());
+
 // Serving static files
-app.use(express.static(`${__dirname}/public`));
+//app.use(express.static(`${__dirname}/public`));
 
 
 app.use("/api/v1/tournaments", tournamentRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/bookings",bookingRouter)
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

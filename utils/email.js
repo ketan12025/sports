@@ -21,11 +21,10 @@ module.exports = class Email {
 
   // Send the actual email
   async send(subject) {
-    // 1) Render HTML
+   
     const html = `<body>Forgot your password? Submit a PATCH request with your new password and passwordConfirm 
                   to: ${this.url}.\nIf you didn't forget your password, please ignore this email!.please do not reply to this email this is atomatic generated email</body>`;
 
-    // 2) Define email options
     const mailOptions = {
       from: this.from,
       to: this.to,
@@ -35,7 +34,6 @@ module.exports = class Email {
           ${this.url}.\nIf you didn't forget your password, please ignore this email`,
     };
 
-    // 3) ChtmlToText.fromString(html)reate a transport and send email
     await this.newTransport().sendMail(mailOptions, (err, res) => {
       if (err) {
         console.log(err)

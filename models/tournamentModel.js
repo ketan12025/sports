@@ -94,7 +94,7 @@ const tournamentSchema = new mongoose.Schema(
 );
 tournamentSchema.plugin(uniqueValidator)
 //virtual properties
-tournamentSchema.virtual("durationWeeks").get(function() {
+tournamentSchema.virtual("durationWeeks",()=> {
   return this.duration / 7;
 });
 
